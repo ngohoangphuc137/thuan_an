@@ -1,0 +1,3 @@
+<div class="megamenu mobile-sub-menu">
+ <?php echo $this->runChild('frontend.layout.menuChildren'); ?>
+</div>

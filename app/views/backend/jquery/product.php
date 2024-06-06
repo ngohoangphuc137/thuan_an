@@ -1,0 +1,128 @@
+<script>
+    $(document).ready(function () {
+        var names = [];
+        var spefi = {};
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+        let specifications = $('.specifications');
+        $('#summernote').summernote({
+            placeholder: 'Mô tả sản phẩm',
+            tabsize: 2,
+            height: 300,
+            callbacks: {
+                onImageUpload: function (image) {
+                    uploadImage(image[0]);
+                },
+                onMediaDelete: function (target) {
+                    deleteFile(target[0].src)
+                }
+            }
+        });
+
+        function uploadImage(image) {
+            let out = new FormData();
+            out.append('file', image, image.name);
+            $.ajax({
+                url: '{{ route('uploadFile') }}',
+                method: "post",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: out,
+                success: function (img) {
+                    const data = JSON.parse(img);
+                    if (data.status == 'error') {
+                        alert('file ảnh đã có');
+                    } else {
+                        $('#summernote').summernote('insertImage', data.file);
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        function deleteFile(image) {
+            const imgSrc = image;
+            $.ajax({
+                url: '{{ route('deleteFile') }}',
+                method: 'post',
+                data: { 'imgSrc': imgSrc },
+                success: function (opt) {
+                }
+            })
+        }
+
+        $("#imageDectibe").change(function () {
+            for (var i = 0; i < $(this).get(0).files.length; ++i) {
+                names.push($(this).get(0).files[i].name);
+            }
+        })
+
+        for (let i = 0; i < specifications.length; i++) {
+            const input = specifications[i];
+            const inputId = input.id;
+            $(input).on('change', function () {
+                spefi[inputId] = $(this).val();
+            })
+        }
+        $('#price').on('keyup', function () {
+            var removechar = $(this).val().replace(/[^0-9\.]/g, '');
+            var removeDot = removechar.replace(/\./g, '');
+            var formateNumber = removeDot.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
+            $(this).val(formateNumber)
+        })
+
+        $('.ResetForm').on('click', function () {
+            $('#formProduct')[0].reset();
+        })
+
+        $('#submitProduct').on('click', function () {
+
+            let flag = true
+            let nameProduct = $('#nameProduct').val();
+            let price = $('#price').val();
+            let menuProduct = $('#menuProduct').val();
+            if (nameProduct == "" || price == "" || menuProduct == 0) {
+                flag = false
+                alert('Các trường tên,giá,danh mục sản phẩm là bắt buộc')
+            }
+
+           if(flag == true){
+            const formProduct = $('#formProduct')[0]
+            const jsonimageDec = JSON.stringify(names)
+            const jsonSpec = JSON.stringify(spefi)
+            var formData = new FormData(formProduct);
+            formData.append('imageDec', jsonimageDec);
+            formData.append('specifications', jsonSpec);
+
+            $.ajax({
+                url: '{{ route('more') }}',
+                method: 'post',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (res) {
+                    $('#formProduct')[0].reset();
+                    let data = JSON.parse(res);
+                    if (data.status == 200) {
+                        $('#summernote').summernote('reset');
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Lưu thành công'
+                        })
+                    }
+                }
+            })
+        }
+
+
+        })
+    })
+</script>

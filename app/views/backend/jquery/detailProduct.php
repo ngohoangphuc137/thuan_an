@@ -1,0 +1,437 @@
+<script>
+    $('document').ready(function () {
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+        $('#editorProduct').summernote({
+            tabsize: 2,
+            height: 300,
+            dialogsInBody: true,
+            dialogsFade: false,
+            callbacks: {
+                onImageUpload: function (image) {
+                    uploadImage(image[0]);
+                },
+                onMediaDelete: function (target) {
+                    deleteFile(target[0].src)
+                }
+            }
+        });
+        var fotoramaImage = $('.fotoramaImage').fotorama();
+        // list comment product
+        function fetchData() {
+            $.ajax({
+                url: "{{ route('getProduct/'.$getProductSlug->id_product)}}",
+                method: 'post',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    const data = JSON.parse(res)
+                    const {
+                        getImageId,
+                        getProductId,
+                        getSpes,
+                        menuTree
+                    } = data;
+                    const {
+                        related_specifications,
+                        ...spec
+                    } = getSpes;
+
+                    $('.product-item-name').html(getProductId.name_product)
+                    $('.Description').html(getProductId.describe)
+                    $('#editorProduct').html(getProductId.describe);
+
+                    $('#idProduct').val(getProductId.id_product);
+                    $('#nameProduct').val(getProductId.name_product);
+                    $('#price').val(convertNumber(getProductId.price));
+                    $('#quanity').val(getProductId.quanity);
+                    $('#sale').val(getProductId.sale);
+                    $('#categoryProduct p').html('').append(getProductId.name_category);
+                    $('#editorProduct').summernote('code', getProductId.describe)
+                    // show image product
+                    resetAndAddImages(getImageId)
+                    // show specifications product
+                    specifications(related_specifications, spec, data)
+
+                    if (parseInt(getProductId.sale) == 0) {
+                        $('#price-box .price').html(convertNumber(getProductId.price) + 'đ')
+                    } else {
+                        $('#price-box .price').html(convertNumber(getProductId.priceSale) + 'đ')
+                        $('#price-box .old-price').html(convertNumber(getProductId.price) + 'đ')
+                    }
+
+
+                    // menu product 
+                    $('#menuProduct').html('')
+                    const optionMenutree = $.map(menuTree, function (val, index) {
+                        return (
+                            `<option value="${val.value}" ${getProductId.id_category == val.value ? 'selected' : ''} >${val.text}</option>`
+                        )
+                    })
+                    $('#menuProduct').append(optionMenutree)
+                }
+            })
+        }
+        
+        function loadComment() {
+            $.ajax({
+                url: '{{route('getComment/'.$getProductSlug->id_product)}}',
+                method: 'get',
+                success: function (res) {
+                    const data =JSON.parse(res)
+                    $('.comments-area').html("");
+                    $('.comments-area').append(data);
+                }
+           })
+        }
+        loadComment()
+        fetchData()
+        function convertNumber(number) {
+            var convert = number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
+            return convert
+        }
+
+        function uploadImage(image) {
+            let out = new FormData();
+            out.append('file', image, image.name);
+            $.ajax({
+                url: '{{ route('uploadFile') }}',
+                method: "post",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: out,
+                success: function (img) {
+                    const data = JSON.parse(img);
+                    if (data.status == 'error') {
+                        alert('file ảnh đã có');
+                    } else {
+                        $('#editorProduct').summernote('insertImage', data.file);
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        function deleteFile(image) {
+            const imgSrc = image;
+            $.ajax({
+                url: '{{ route('deleteFile') }}',
+                method: 'post',
+                data: { 'imgSrc': imgSrc },
+                success: function (opt) {
+                }
+            })
+        }
+
+     
+
+        function resetAndAddImages(newImageIds) {
+            // Xóa ảnh cũ và cập nhật lại fotorama
+            var data = [];
+            var output = '';
+            $('#ulImages').html('')
+            var fotorama = fotoramaImage.data('fotorama');
+            fotorama.destroy();
+            // Cập nhật nội dung imageFotorama
+            for (let i = 0; i < newImageIds.length; i++) {
+                const element = `{{BASE_URL}}` + newImageIds[i].imageDescribe;
+                data.push({
+                    'thumb': element
+                })
+                output += `
+                <li class="image-checkbox" id="box${newImageIds[i].id_imgDescribe}">
+                        <i class="fas fa-check"></i>
+                        <input class="checkBox-image" type="checkbox" value="${newImageIds[i].id_imgDescribe}"
+                            name="checkBox[]">
+                        <img class="image-describe flex-shrink-1 rounded  bd-highlight"
+                            id="imageProduct${newImageIds[i].id_imgDescribe}" src="${element}"
+                            alt="IMAGE">
+                    </li>
+                `
+            }
+
+            $('#ulImages').append(output)
+            fotoramaImage.fotorama({
+                'data': data
+            })
+        }
+
+        function specifications(related_specifications, spec, data) {
+            var newSpes = [];
+            $('#id_product').val(data.getProductId.id_product);
+            newSpes.push({
+                'text': 'Chiều cao',
+                'value': spec.height
+            })
+            newSpes.push({
+                'text': 'Chiều ngang',
+                'value': spec.horizontal
+            })
+            newSpes.push({
+                'text': 'Chiều sâu',
+                'value': spec.deep
+            })
+            newSpes.push({
+                'text': 'Màu sắc',
+                'value': spec.color
+            })
+            $.each(spec, function (key, value) {
+                $(`#${key}`).val(value);
+            });
+            $.each(related_specifications, function (key, value) {
+                $(`#information${key}`).val(value);
+            });
+
+            $('#tableSpes').html('')
+            let output = $.map(newSpes, function (value) {
+
+                if (data.getSpes || $.isEmptyObject(spec) == false) {
+                    if (value.value !== '') {
+                        return (
+                            `<tr class="col">
+                               <td class="col-6 colborder">${value.text}</td>
+                                     <td class="col-6 ">
+                                      <input type="text"
+                                         class="form-control input-infomation form-control-border"
+                                         id="exampleInputBorder" value="${value.value}" placeholder="Trống">
+                                     </td>
+                             </tr>`
+                        )
+                    }
+                }
+            })
+
+            let specs = $.map(related_specifications, function (value) {
+                if (value !== "") {
+                    return (
+                        `<tr class="tr-infomation">
+                            <td colspan="2">
+                                <input type="text"
+                                    class="form-control input-infomation form-control-border"
+                                    id="exampleInputBorder" value="${value}">
+                            </td>
+                        </tr>
+                        `)
+                }
+
+            })
+            $('#tableSpes').append([output, specs])
+        }
+
+        // convert number into money vnd
+        $('#price').on('keyup', function () {
+            var removechar = $(this).val().replace(/[^0-9\.]/g, '');
+            var removeDot = removechar.replace(/\./g, '');
+            var formateNumber = removeDot.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
+            $(this).val(formateNumber)
+        })
+        // updata product
+        $('.btn-updataDescribe').on('click', function () {
+            const formUpdataProduct = $('#formUpdataProduct')[0];
+            let formData = new FormData(formUpdataProduct);
+            $.ajax({
+                url: '{{route('updataProduct')}}',
+                method: 'post',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function () {
+                    fetchData()
+                    $('.close').trigger('click');
+                    formUpdataProduct.reset();
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Lưu thành công'
+                    })
+                }
+            })
+        })
+
+        $('#ulImages').on('click', '.image-checkbox', function () {
+            $(this).toggleClass('li-image')
+            var $checkBox = $(this).find('input[type="checkbox"]')
+            $checkBox.prop('checked', !$checkBox.prop('checked'))
+        })
+        // delete image or more image
+        $('#btn-delete').on('click', function () {
+            var arrayImage = [];
+            $('.checkBox-image').each(function () {
+                if ($(this).prop('checked')) {
+                    const getLinkImage = $(`#imageProduct${$(this).val()}`).attr('src').split('/')
+                        .pop()
+                    arrayImage.push({
+                        'idImage': $(this).val(),
+                        'LinkImage': getLinkImage
+                    })
+                    $('#box' + $(this).val()).remove()
+                }
+            })
+            if (arrayImage.length > 0) {
+                const image = JSON.stringify(arrayImage)
+                const formData = new FormData();
+                formData.append('arrayImage', image)
+                $.ajax({
+                    url: '{{BASE_URL}}updataProduct',
+                    method: 'post',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        const data = JSON.parse(res);
+                        $('#close').trigger('click');
+                        fetchData()
+                        if (data.status == 200) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Xóa ảnh thành công'
+                            })
+                        }
+                    }
+                })
+            }
+        })
+
+        // more image
+        $('#btn-MoreImage').on('click', function () {
+            const formImage = $('#formImage')[0];
+            const formData = new FormData(formImage);
+            $.ajax({
+                url: '{{BASE_URL}}updataProduct',
+                method: 'post',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    fetchData()
+                    formImage.reset();
+                    $('.close').trigger('click');
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Thêm ảnh thành công'
+                    })
+                }
+            })
+        })
+
+        // updata specifications
+        var spefi = {};
+        let specifi = $('.specifications');
+        for (let i = 0; i < specifi.length; i++) {
+            const input = specifi[i];
+            const inputId = input.id;
+            $(input).on('input', function () {
+                spefi[inputId] = $(this).val();
+            })
+        }
+        $('.updataSpes').on('click', function () {
+            if (!$.isEmptyObject(spefi)) {
+                const formDataSpecifi = $('#formDataSpecifi')[0];
+                let formData = new FormData(formDataSpecifi);
+                $.ajax({
+                    url: '{{route('updataProduct')}}',
+                    method: 'post',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function () {
+                        fetchData()
+                        formDataSpecifi.reset();
+                        $('.close').trigger('click');
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Lưu thành công'
+                        })
+                    }
+                })
+            }
+        })
+
+        
+        // block form comment
+        $('.comments-area').on('click','.replyUser',function(){
+            $('.reply-user').html('')
+            const nameUser = $(this).attr('data-nameUser')
+            $(this).closest('.li_comment_user').find('.reply-user').append(`
+            <form id="FormReplyUser">
+                <div data- class="title-formReplyUser d-flex align-items-center">
+                    <p class="replyFrom">Phản hồi đến
+                        <span>${nameUser}</span>
+                    </p>
+                     <p class="closeComment" style="padding-left: 10px;">Hủy</p>
+                </div>
+                <label for="">Bình luận *</label>
+                <textarea class="form-control" name="" id="reply-msg"
+                    cols="30" rows="3"></textarea>
+                <button type="button" class="btn btn-danger by-2 mt-2 btn-submitComment">Phản hồi</button>
+            </form>
+            `)
+        })
+        // clean form comment
+        $('.comments-area').on('click','.closeComment',function(){
+            $('.reply-user').html('')
+        })
+        
+        $(document).on('click','.btn-submitComment',function(){
+            const idComment = $(this).closest('.li_comment_user').find('.replyUser').attr('data-idComment')
+            const idProduct = $(this).closest('.li_comment_user').find('.replyUser').attr('data-idProduct')
+            const commentContent = $(this).closest('.li_comment_user').find('#reply-msg').val();
+            const name = 'admin'
+            const data = {'name_user':name,'idComment':idComment,'idProduct':idProduct,'commentContent':commentContent}
+            if(commentContent!== ""){
+                $.ajax({
+                    url:'{{route('replyComment')}}',
+                    method:'post',
+                    data:data,
+                    success:function(res){
+                      const data =JSON.parse(res);
+                      loadComment()
+                      $('.reply-user').html('')
+                      if(data.status == 200){
+                        Toast.fire({
+                        icon: 'success',
+                        title: 'Gửi bình luận thành công'
+                       })
+                      }
+                    }
+                })
+            }
+        })
+    })
+</script>
+
+<script>
+    let tab_item = document.querySelectorAll('.tab-item')
+    let gray_bg = document.querySelectorAll('.gray-bg')
+
+    const transition = (event) => {
+        const clickke = event.target.closest('.tab-item')
+        if (clickke === null) {
+            return
+        }
+        tab_item.forEach(element => {
+            element.classList.remove('selected')
+        });
+        clickke.classList.add('selected')
+
+        const getTitle = clickke.getAttribute('title')
+
+        gray_bg.forEach(element => {
+            element.classList.remove('selected')
+        });
+
+        const activeSelected = document.querySelector(`.items-${getTitle}`)
+        activeSelected.classList.add('selected')
+    }
+</script>

@@ -1,0 +1,156 @@
+<?php $_shouldextend[1]=1; ?>
+<?php $this->startSection('title'); ?>
+<title>Trang chủ</title>
+<?php $this->stopSection(); ?>
+<?php $this->startSection('content'); ?>
+<section class="banner-contact">
+ <div class="container">
+ <div class="sub-banner-block center-xs">
+ <div class="row mlr_-20">
+ <div class="col-sm-8 plr-20">
+ <div class="banner">
+ <div class="main-banner" style="display:flex;">
+ <div class="item"> <img src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>public/images/banner-gaming.jpg" alt="Honour">
+ </div>
+ <div class="item"><img src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>public/images/banner-vp.jpg" alt="Honour"> 
+ </div>
+ <div class="item"> <img src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>public/images/banner-vp1.jpg" alt="Honour">
+ </div>
+
+ </div>
+ </div>
+ </div>
+
+ <div class="col-sm-4 plr-20">
+ <div class="sub-banner sub-banner1">
+ <img src="https://wedo.vn/wp-content/uploads/2020/06/thiet-ke-van-phong-mo-1.jpg" alt="Honour">
+
+ </div>
+ <div class="subBanner sub-banner2">
+ <img src="http://uniquedecor.com.vn/wp-content/uploads/2015/02/phong-lam-viec-nhan-vien.jpg"
+ alt="Honour">
+ </div>
+ <div class="subBanner sub-banner3">
+ <div class="row row-link-contact">
+ <?php $__currentLoopData = $postLimit; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $key=>$value): $loop = $this->incrementLoopIndices();  ?>
+ <?php if($key <= 4): ?>   
+ <div class="col-sm-12 post-item">
+ <a href="<?php echo \htmlentities(route('bai-viet/').$value->slugUrl_post??'', ENT_QUOTES, 'UTF-8', false); ?>/"><?php echo \htmlentities($value->title_post??'', ENT_QUOTES, 'UTF-8', false); ?></a>
+ </div>
+ <?php endif; ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!--  Featured Products Slider Block Start  -->
+ <section class="pt-95">
+ <div class="container">
+ <div class="product-slider">
+ <div class="row">
+ <div class="col-xs-12">
+ <div class="heading-part align-center mb-40">
+ <img src="https://noithatthienminh.vn/wp-content/uploads/2019/01/title.png" alt="">
+ </div>
+ </div>
+ </div>
+ <div class="row">
+ <div class="pro_cat">
+ <div id="data-step1" class="product-slider-main position-r" data-temp="tabdata">
+ <div class="owl-carousel pro_cat_slider Related-Products">
+ <?php $__currentLoopData = $getProductSale; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $item): $loop = $this->incrementLoopIndices();  ?>
+ 
+ <div class="item">
+ <div class="product-item">
+ <div class="sale-label"><span><?php echo \htmlentities($item->sale??'', ENT_QUOTES, 'UTF-8', false); ?> %</span></div>
+ <div class="product-image"> <a href="<?php echo \htmlentities(route('san-pham/').$item->slugUrlProduct??'', ENT_QUOTES, 'UTF-8', false); ?>/"> <img
+ src="<?php echo \htmlentities(BASE_URL.$item->imageDescribe??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ alt=""> </a>
+
+ </div>
+ <div class="product-item-details">
+ <div class="product-item-name"> <a href="<?php echo \htmlentities(route('san-pham/').$item->slugUrlProduct??'', ENT_QUOTES, 'UTF-8', false); ?>/"><?php echo \htmlentities($item->name_product??'', ENT_QUOTES, 'UTF-8', false); ?></a>
+ </div>
+ <?php if($item->sale != 0): ?>
+ <div class="price-box"> <span class="price"><?php echo \htmlentities(number_format(($item->price * (100 - $item->sale) / 100),0,',','.').'₫'??'', ENT_QUOTES, 'UTF-8', false); ?></span> <del
+ class="price old-price"><?php echo \htmlentities(number_format($item->price,0,',','.') . '₫'??'', ENT_QUOTES, 'UTF-8', false); ?></del></div>
+ <?php else: ?>
+ <div class="price-box"> 
+ <span class="price"><?php echo \htmlentities(number_format(($item->price),0,',','.').'₫'??'', ENT_QUOTES, 'UTF-8', false); ?></span></div>
+ <?php endif; ?>
+ 
+ </div>
+ </div>
+ </div>
+
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+ <?php $__currentLoopData = $array; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $layout): $loop = $this->incrementLoopIndices();  ?>
+ <?php if($layout->layoutType == 1): ?>
+ <!-- slideProduct -->
+ <?php echo $this->runChild('frontend.homelayout.slideLayout',['layout'=>$layout]); ?>
+ 
+ <?php elseif($layout->layoutType == 2): ?>
+ <?php echo $this->runChild('frontend.homelayout.listProduct',['layout'=>$layout]); ?>
+ 
+ <?php else: ?>
+ <!-- category and product -->
+ <?php echo $this->runChild('frontend.homelayout.category_product',['layout'=>$layout,'getCategory'=>$getCategory]); ?>
+ 
+ <?php endif; ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ <!-- post -->
+ <section class="ptb-95">
+ <div class="container">
+ <div class="row">
+ <div class="col-xs-12">
+ <div class="heading-part heading-part-bottom mb-40">
+ <span class="main_title main_title_product">Tư vấn hướng dẫn</span>
+ </div>
+ </div>
+ </div>
+ <div class="row">
+ <?php $__currentLoopData = $postLimit; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $key=>$value): $loop = $this->incrementLoopIndices();  ?>
+ <?php if($key <= 5): ?>
+ <div class="large-columns-5 col-m col-xs-6 col-md-3 col-sm-4 large-columns-6">
+ <div class="blog-item">
+ <div class="blog-media">
+ <div class="images-cover">
+ <img
+ src="<?php echo \htmlentities(BASE_URL.$value->image_title??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ alt="Honour"> <a href="<?php echo \htmlentities(route('bai-viet/').$value->slugUrl_post??'', ENT_QUOTES, 'UTF-8', false); ?>/" title="Click For Read More" class="read">&nbsp;</a>
+ </div>
+ </div>
+ <div class="blog-detail"> <span><?php echo \htmlentities($value->date??'', ENT_QUOTES, 'UTF-8', false); ?></span>
+ <h3><a href="<?php echo \htmlentities(route('bai-viet/').$value->slugUrl_post??'', ENT_QUOTES, 'UTF-8', false); ?>/"><?php echo \htmlentities($value->title_post??'', ENT_QUOTES, 'UTF-8', false); ?></a></h3>
+ <hr>
+ <!-- <div class="post-info">
+ <ul>
+ <li><span>Bời</span><a href="#">Admin</a></li>
+ </ul>
+ </div> -->
+ </div>
+ </div>
+ </div>
+ <?php endif; ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+ </div>
+ </section>
+
+<?php $this->stopSection(); ?>
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('frontend.layout.main'); } ?>

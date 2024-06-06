@@ -1,0 +1,207 @@
+<?php 
+ use App\Controllers\user\MainController;
+
+ $Home = new MainController;
+ $getAllCaregory = $Home->getAllCaregory();
+ $getProductCart = $Home->getProductCart();
+ ?>
+<div class="main">
+ <header class="navbar navbar-custom" id="header">
+ <div class="container">
+ <div class="header-inner">
+ <div class="navbar-header">
+ <button class="navbar-toggle" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+ height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+ stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu">
+ <line x1="4" x2="20" y1="12" y2="12" />
+ <line x1="4" x2="20" y1="6" y2="6" />
+ <line x1="4" x2="20" y1="18" y2="18" />
+ </svg></button>
+ <a href="<?php echo \htmlentities(route('')??'', ENT_QUOTES, 'UTF-8', false); ?>" class="navbar-brand page-scroll">
+ <img alt="ThuanAn" src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>public/images/logothuanan.png">
+ </a>
+ </div>
+ <div class="right-side float-none-sm">
+
+ <div class="right-side float-left-xs header-right-link">
+ <ul>
+ <li class="main-search">
+ <div class="header_search_toggle desktop-view">
+ <form>
+ <div class="search-box">
+ <input class="input-text input-search" type="text"
+ placeholder="Tìm kiếm sản phẩm...">
+ <button class="search-btn"></button>
+ </div>
+ </form>
+ </div>
+ <div class="header-search product-link desktop-search-view">
+ <ul class="overflow list-product-search">
+
+ </li>
+ </ul>
+ <li class="account-icon"> <a><span></span></a>
+ <div class="header-link-dropdown account-link-dropdown">
+ <ul class="link-dropdown-list">
+ <li>
+ <?php if(isset($_SESSION['user'])): ?>
+ <ul>
+ <li><a href="<?php echo \htmlentities(route('account/')??'', ENT_QUOTES, 'UTF-8', false); ?>">Tài khoản của tôi</a></li>
+ <li><a href="<?php echo \htmlentities(route('logout')??'', ENT_QUOTES, 'UTF-8', false); ?>">Đăng xuất</a></li>
+ </ul>
+ <?php else: ?>
+ <ul>
+ <li><a href="<?php echo \htmlentities(route('login/')??'', ENT_QUOTES, 'UTF-8', false); ?>">Đăng nhập</a></li>
+ <li><a href="<?php echo \htmlentities(route('register/')??'', ENT_QUOTES, 'UTF-8', false); ?>">Tạo tai khoản</a></li>
+ </ul>
+ <?php endif; ?>
+ </li>
+ </ul>
+ </div>
+ </li>
+ <li class="cart-icon"> <a href="<?php echo \htmlentities(route('cart')??'', ENT_QUOTES, 'UTF-8', false); ?>/?chirlden-cart"> <span> <small
+ class="cart-notification"><?php echo \htmlentities($tong = array_reduce($_SESSION['cart'], function ($total, $quanity) {
+ return $total + $quanity['quanity']; }, 0)??'', ENT_QUOTES, 'UTF-8', false); ?></small>
+ </span> </a>
+ <?php if(!isset($_GET['chirlden-cart'])): ?>
+
+ <div class="cart-dropdown header-link-dropdown">
+ <?php if(!empty($_SESSION['cart'])): ?>
+ <ul class="cart-list link-dropdown-list">
+
+ <?php $__currentLoopData = $getProductCart; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $key => $value): $loop = $this->incrementLoopIndices();  ?>
+
+ <li> <a class="close-cart"><i class="fa fa-times-circle"></i></a>
+ <div class="media"> <a class="pull-left"> <img alt="Minimo"
+ src="<?php echo \htmlentities(BASE_URL . $value->imageDescribe??'', ENT_QUOTES, 'UTF-8', false); ?>"></a>
+ <div class="media-body"> <span><a><?php echo \htmlentities($value->name_product??'', ENT_QUOTES, 'UTF-8', false); ?></a></span>
+ <p class="cart-price">
+ <?php echo \htmlentities(number_format($_SESSION['cart'][$value->id_product]['price'], 0, ',', '.') . 'đ'??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ </p>
+ <div class="product-qty">
+ <label>Qty:
+ <span><?php echo \htmlentities($_SESSION['cart'][$value->id_product]['quanity']??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ </span></label>
+ </div>
+ </div>
+ </div>
+ </li>
+
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+ <!-- <style>
+ .media-body span a{
+ display: block;
+ display: -webkit-box;
+ max-width: 100%;
+ line-height: 1;
+ -webkit-line-clamp: 2;
+ -webkit-box-orient: vertical;
+ overflow: hidden;
+ text-overflow: ellipsis;
+ }
+ </style> -->
+ </ul>
+ <?php        $sum = 0;
+ foreach ($_SESSION['cart'] as $value) {
+ $sum += $value['quanity'] * $value['price'];
+ }
+ ?>
+ <p class="cart-sub-totle"> <span class="pull-left">Tổng phụ :<strong class="">
+ <?php echo \htmlentities(number_format($sum, 0, ',', '.') . 'đ'??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ </strong></span> </p>
+ <div class="clearfix"></div>
+ <div class="mt-20"> <a href="<?php echo \htmlentities(route('cart')??'', ENT_QUOTES, 'UTF-8', false); ?>" class="btn-color btn">Giỏ hàng</a>
+ <a href="<?php echo \htmlentities(route('checkout')??'', ENT_QUOTES, 'UTF-8', false); ?>" class="btn-color btn right-side">Thanh toán</a>
+ </div>
+ <?php else: ?>
+ <p style="color:white;">Chưa có sản phẩm trong giỏ hàng</p>
+ <?php endif; ?>
+
+ </div>
+ <?php endif; ?>
+ </li>
+ </ul>
+ </div>
+ </div>
+ <div class="header_search_toggle mobile-view">
+ <form>
+ <div class="search-box">
+ <input class="input-text input-search" type="text"
+ placeholder="Tìm kiếm sản phẩm...">
+ <button type="button" class="search-btn"></button>
+ </div>
+ <div class="header-search product-link">
+ <ul class="overflow list-product-search">
+
+
+
+
+ </ul>
+ </div>
+ </form>
+ </div>
+ <style>
+ .header-search {
+ display: none;
+ }
+
+ .empty-product {
+ color: black;
+ font-weight: 500;
+ }
+
+ .autocomplete-suggestion:hover {
+ background-color: rgba(0, 0, 0, 0.05);
+ }
+ </style>
+ </div>
+ </div>
+ </header>
+</div>
+<section class="nav-bar-menu">
+ <div class="main-menu-overlay"></div>
+ <header class="navbar navbar-custom boxNavBar" id="header">
+ <div class="container">
+ <div class="header-inner">
+ <div class="navbar-header">
+ <div class="left-side float-none-sm">
+ <div id="menu" class="left-side">
+ <ul class="nav navbar-nav navbar-left">
+ <li class="level"> <a href="<?php echo \htmlentities(route('')??'', ENT_QUOTES, 'UTF-8', false); ?>" class="page-scroll">Trang chủ</a>
+ </li>
+ <?php $__currentLoopData = $getAllCaregory; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $value): $loop = $this->incrementLoopIndices();  ?>
+ <?php if($value->id_parent == 0): ?>
+ <li class="level"><span class="opener plus"></span> <a
+ href="<?php echo \htmlentities(route('danh-muc/') . $value->slugUrl??'', ENT_QUOTES, 'UTF-8', false); ?>/"
+ class="page-scroll"><?php echo \htmlentities($value->name_category??'', ENT_QUOTES, 'UTF-8', false); ?></a>
+ <?php 
+ $Home->menutreeUser($getAllCaregory, $value->id_category)
+ ?>
+
+ </li>
+ <?php endif; ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+ </ul>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+ <button type="button" class="close close-menu" data-dismiss="modal" aria-label="Close">
+ <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+ stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+ class="feather feather-x">
+ <line x1="18" y1="6" x2="6" y2="18"></line>
+ <line x1="6" y1="6" x2="18" y2="18"></line>
+ </svg>
+ </button>
+ </header>
+</section>

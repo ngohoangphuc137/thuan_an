@@ -1,0 +1,137 @@
+<?php $_shouldextend[1]=1; ?>
+<?php $this->startSection('content'); ?>
+<!-- modal updata category -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+ aria-labelledby="staticBackdropLabel" aria-hidden="true">
+ <div class="modal-dialog">
+ <form id="formUpdataCate">
+ <div class="modal-content">
+ <div class="modal-header">
+ <h5 class="modal-title" id="staticBackdropLabel">Sửa danh mục</h5>
+ <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+ <span aria-hidden="true">&times;</span>
+ </button>
+ </div>
+ <div class="modal-body">
+ <div class="form-group">
+ <label for="exampleInputEmail1">Tên danh mục</label>
+ <input type="hidden" name="idCategory" id="idCategory">
+ <input type="text" class="form-control" id="NameCategory" name="NameCategory"
+ aria-describedby="emailHelp">
+ </div>
+ <div class="form-group">
+ <label for="exampleInputPassword1">Thuộc danh mục</label>
+ <select name="" id="optionMenutree" class="form-control optionMenutree">
+ <!-- Phần select danh mục -->
+ </select>
+ </div>
+ <div class="form-group">
+ <label for="exampleInputPassword1">Trạng thái</label>
+ <select name="" id="statusCategory" class="form-control statusCategory">
+ <option value="0">Đã ngừng</option>
+ <option value="1">Đang hoạt động</option>
+ </select>
+ </div>
+ </div>
+ <div class="modal-footer">
+ <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+ <button type="button" class="btn btn-primary" id="updataCategory">Lưu</button>
+ </div>
+ </div>
+ </form>
+ </div>
+</div>
+<!-- Modal insert category -->
+<div class="modal fade" aria-labelledby="exampleModalLabel" tabindex="-1" aria-hidden="true" id="exampleModal">
+ <div class="modal-dialog">
+ <form id="formCategort">
+ <div class="modal-content">
+ <div class="modal-header">
+ <h5 class="modal-title" id="exampleModalLabel">Thêm danh mục</h5>
+ <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+ <span aria-hidden="true">&times;</span>
+ </button>
+ </div>
+ <div class="modal-body">
+
+ <div class="form-group">
+ <label for="exampleInputEmail1">Tên danh mục</label>
+ <input type="text" class="form-control" id="categoryName" name="categoryName"
+ aria-describedby="emailHelp">
+ </div>
+
+ <div class="form-group">
+ <label for="exampleInputPassword1">Thuộc danh mục(Không bắt buộc)</label>
+ <select name="" id="" class="form-control selectCategory">
+ <!-- Phần select danh mục -->
+ </select>
+ <small id="emailHelp" class="text-danger form-text">!Nếu chọn thuộc danh mục thì danh mục vừa
+ thêm sẽ là con của danh mục đó.</small>
+ </div>
+
+ </div>
+ <div class="modal-footer">
+ <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+ <button type="button" class="btn btn-primary" id="click">Lưu</button>
+ </div>
+ </div>
+ </form>
+ </div>
+</div>
+<!-- phần page động -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+ <div class="container-fluid">
+ <div class="row mb-2">
+ <div class="col-sm-6">
+ <h1>Danh mục</h1>
+ </div>
+ <div class="col-sm-6">
+ <ol class="breadcrumb float-sm-right">
+ <li class="breadcrumb-item"><a href="<?php echo \htmlentities(route('admin/dashboard')??'', ENT_QUOTES, 'UTF-8', false); ?>">Home</a></li>
+ <li class="breadcrumb-item active">Danh mục</li>
+ </ol>
+ </div>
+ </div>
+ </div><!-- /.container-fluid -->
+</section>
+<!-- Main content -->
+<section class="content">
+ <div class="container-fluid">
+ <div class="row">
+ <div class="col-12">
+ <div class="card">
+ <div class="container-fluid card-header card-category">
+ <button data-toggle="modal" data-target="#exampleModal">
+ Thêm danh mục
+ </button>
+ </div>
+ <div class="card-body">
+ <table id="example2" class="table table-bordered table-hover">
+ <thead>
+ <tr>
+ <th>STT</th>
+ <th>Tên danh mục</th>
+ <th>Thuộc cấp danh mục</th>
+ <th>Ngày tạo</th>
+ <th>Trạng thái</th>
+ <th>Hoạt động</th>
+
+ </tr>
+ </thead>
+ <tbody>
+ </tbody>
+ </table>
+ </div>
+
+ </div>
+ </div>
+
+ </div>
+
+ </div>
+
+</section>
+<?php echo $this->runChild('backend/jquery/category.php'); ?>
+<?php $this->stopSection(); ?>
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('backend.layout.main'); } ?>

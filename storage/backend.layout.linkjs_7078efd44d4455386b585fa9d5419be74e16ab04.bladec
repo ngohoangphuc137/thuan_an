@@ -1,0 +1,88 @@
+<!-- jQuery -->
+<!-- jQuery UI 1.11.4 -->
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/jquery/jquery-ui.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<!-- Bootstrap 4 -->
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/bootstrapJS/bootstrap.bundle.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<!-- ChartJS -->
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/chartjs/Chart.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<!-- Sparkline -->
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/sparklines/sparkline.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<!-- JQVMap -->
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/jquery/jqueryVmap.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/jquery/jquery.vmap.usa.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<!-- jQuery Knob Chart -->
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/jquery/jquery.knob.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<!-- daterangepicker -->
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/daterangepicker/moment.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/daterangepicker/daterangepicker.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/bootstrapJS/tempusdominus-bootstrap-4.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<!-- Summernote -->
+<script src="<?php echo \htmlentities(BASE_URL . 'public/summernote/summernote-bs4.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+
+<!-- overlayScrollbars -->
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/Scrollbars/jquery.overlayScrollbars.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+
+<!-- AdminLTE App -->
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/adminlte/adminlte.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+
+
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/adminlte/dashboard.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+
+<!-- dataTable -->
+
+<!-- DataTables  & Plugins -->
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/datatables/jquery.dataTables.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/datatables-bs4/js/dataTables.bootstrap4.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/datatables-responsive/js/dataTables.responsive.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/datatables-responsive/js/responsive.bootstrap4.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/datatables-buttons/js/dataTables.buttons.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/datatables-buttons/js/dataTables.buttons.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/datatables-buttons/js/buttons.Bootstrap4.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/jszip/jszip.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/pdfmake/pdfmake.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL . 'public/js/pdfmake/vfs_fonts.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL .'public/js/datatables-buttons/js/buttons.html5.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL .'public/js/datatables-buttons/js/buttons.print.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL .'public/js/datatables-buttons/js/buttons.colVis.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+
+
+<!-- Jquery validation -->
+
+<script src="<?php echo \htmlentities(BASE_URL .'public/js/sweetalert2/sweetalert2.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+
+<script src="<?php echo \htmlentities(BASE_URL .'public/js/detail/fotorama.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL.'public/js/jquery/jquery.magnific-popup.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL.'public/js/detail/owl.carousel.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL.'public/js/detail/custom.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script src="<?php echo \htmlentities(BASE_URL.'public/js/bs-custom-file-input/bs-custom-file-input.min.js'??'', ENT_QUOTES, 'UTF-8', false); ?>"></script>
+<script>
+$.widget.bridge('uibutton', $.ui.button)
+</script>
+<script>
+$(function() {
+ bsCustomFileInput.init();
+
+ $("#example1").DataTable({
+ "responsive": true,
+ "lengthChange": false,
+ "autoWidth": false,
+ // "buttons": ["excel", "pdf", "print"]
+ }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+ 
+ $("#example4").DataTable({
+ "responsive": true,
+ "lengthChange": false,
+ "autoWidth": false,
+ // "buttons": ["excel", "pdf", "print"]
+ }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+ $("#example5").DataTable({
+ "responsive": true,
+ "lengthChange": false,
+ "autoWidth": false,
+ // "buttons": ["excel", "pdf", "print"]
+ }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+});
+</script>

@@ -1,0 +1,72 @@
+.product-info-stock-sku table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.product-info-stock-sku table tr:nth-of-type(2n) {
+    background-color: rgba(255, 255, 255);
+}
+
+.product-info-stock-sku table .trModel:nth-of-type(2n-1) {
+    background-color: #f4f6f9;
+}
+
+.product-info-stock-sku table tr .colborder {
+    border-right: 3px solid #f4f6f9;
+}
+
+.product-info-stock-sku table .col td {
+    text-align: center;
+    padding: 0.7rem 0;
+    width: 50%;
+    color: black;
+}
+
+.tr-infomation td {
+    width: 100%;
+    padding: 0.7rem 0;
+    padding-left: 10px;
+    color: black;
+}
+
+.comment-user {
+    width: 35px;
+}
+
+.comment-user img {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.row-right {
+    margin-right: 0;
+    margin-left: -15px;
+}
+
+
+
+.tr-infomation td input {
+    border-bottom: 0;
+    background: none;
+    color: black;
+    width: 100%;
+    padding-left: 2rem;
+}
+
+.product-info-stock-sku table .col td input {
+    border-bottom: 0;
+    text-align: center;
+    background: none;
+    color: black;
+    width: 100%;
+}
+
+.product-info-stock-sku table .col td .input-infomation,
+.tr-infomation td .input-infomation {
+
+    pointer-events: none;
+}
+
+.product-info-stock-sku table tr td input:focus {
+    background: none;
+}

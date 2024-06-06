@@ -1,0 +1,18 @@
+{
+    "name": "phuc/thuan-an",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ngohoangphuc137",
+            "email": "phucnhph34092@fpt.edu.vn"
+        }
+    ],
+    "require": {
+        "phroute/phroute": "^2.2",
+        "eftec/bladeone": "^4.13"
+    }
+}

@@ -1,0 +1,91 @@
+<?php $_shouldextend[1]=1; ?>
+<?php $this->startSection('content'); ?>
+
+<!-- phần page động -->
+<!-- Content Header (Page header) -->
+<section class="content-header">
+ <div class="container-fluid">
+ <div class="row mb-2">
+ <div class="col-sm-6">
+ <h1>Người dùng</h1>
+ </div>
+ <div class="col-sm-6">
+ <ol class="breadcrumb float-sm-right">
+ <li class="breadcrumb-item"><a href="<?php echo \htmlentities(route('admin/dashboard')??'', ENT_QUOTES, 'UTF-8', false); ?>">Home</a></li>
+ <li class="breadcrumb-item active">Người dùng</li>
+ </ol>
+ </div>
+ </div>
+ </div><!-- /.container-fluid -->
+</section>
+<!-- Main content -->
+<section class="content">
+ <div class="container-fluid">
+ <div class="row">
+ <div class="col-12">
+ <div class="card">
+ <div class="card-body">
+ <table id="example4" class="table table-bordered table-hover">
+ <thead>
+ <tr>
+ <th>STT</th>
+ <th>Tên người dùng</th>
+ <th>Địa chỉ email</th>
+ <th>Vai trò</th>
+ <th>Hoạt động</th>
+
+ </tr>
+ </thead>
+ <tbody>
+ <?php $__currentLoopData = $listUser; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $value): $loop = $this->incrementLoopIndices();  ?>                          
+ <tr id="box<?php echo \htmlentities($value->id_user??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ <td><?php echo \htmlentities($loop->index + 1??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($value->name_user??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($value->Email??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td>
+ <?php if($value->role == 0): ?>
+ Khách hàng
+ <?php else: ?>
+ Admin
+ <?php endif; ?>
+ </td>
+ <td style="text-align: center;">
+ <button type="button" data-product="<?php echo \htmlentities($value->id_user??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ class="btn btn-outline-danger deleteUser"><i
+ class="far fa-trash-alt"></i></button>
+ </td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+ </table>
+ </div>
+
+ </div>
+ </div>
+
+ </div>
+
+ </div>
+
+</section>
+<script>
+ $(document).ready(function () {
+ $('.deleteUser').on('click', function () {
+ const idUser = $(this).attr('data-product')
+ confirm("Bạn có chắc muốn xóa không !(Nếu xóa các mục liên quan tới người dùng này dùng này cũng bị xóa theo)")
+ ? $.ajax({
+ url: `<?php echo \htmlentities(route('deleteuser/')??'', ENT_QUOTES, 'UTF-8', false); ?>${idUser}`, 
+ method: 'post',
+ success: function () {
+ $(`#box${idUser}`).remove()
+ }
+ })
+ : ""
+
+ })
+
+ })
+</script>
+<?php $this->stopSection(); ?>
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('backend.layout.main'); } ?>

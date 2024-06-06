@@ -1,0 +1,95 @@
+<?php $_shouldextend[1]=1; ?>
+<?php $this->startSection('title'); ?>
+<title>Đăng ký</title>
+<?php $this->stopSection(); ?>
+<?php $this->startSection('content'); ?>
+<section class="checkout-section ptb-95">
+ <div class="container">
+ <div class="row">
+ <div class="col-xs-12">
+ <div class="row">
+ <div class="col-lg-6 col-md-8 col-sm-8 col-lg-offset-3 col-sm-offset-2">
+ <form action="<?php echo \htmlentities(route('createAccountUser')??'', ENT_QUOTES, 'UTF-8', false); ?>" method="post" class="main-form full">
+ <div class="row">
+ <div class="col-xs-12 mb-20">
+ <div class="heading-part heading-bg">
+ <h2 class="heading">Tạo tài khoản của bạn</h2>
+ </div>
+ </div>
+ <div class="col-xs-12">
+ <div class="input-box">
+ <label for="f-name">Tên khách hàng</label>
+ <input type="text" id="f-name" name="name_user" required
+ placeholder="Tên khách hàng">
+ </div>
+ </div>
+ <div class="col-xs-12">
+ <div class="input-box">
+ <label for="login-email">Địa chỉ email</label>
+ <input id="login-email" type="email" name="email" required
+ placeholder="Địa chỉ email">
+ </div>
+ </div>
+ <div class="col-xs-12">
+ <div class="input-box">
+ <label for="login-pass">Mật khẩu</label>
+ <input id="password" type="password" name="password" required
+ placeholder="Mật khẩu của bạn">
+ </div>
+ </div>
+ </div>
+ <div class="col-xs-12">
+ <div class="check-box" style="padding-bottom: 10px;"> <span>
+ <input type="checkbox" name="remember_me" id="checked-show-pass" class="checkbox">
+ </span>
+ <label for="checked-show-pass">Xem mật khẩu</label>
+ </div>
+ </div>
+
+ <script>
+ $(document).ready(function(){
+ $('#checked-show-pass').on('change',function(){
+ if($(this).is(':checked')){
+ $('#password').attr("type", "text")
+ }else{
+ $('#password').attr("type", "password")
+ }
+ })
+ })
+ </script>
+
+ <div class="col-sm-12">
+ <?php if(isset($_SESSION['errors']) && isset($_GET['msg'])): ?>
+ <?php $__currentLoopData = $_SESSION['errors']; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $value): $loop = $this->incrementLoopIndices();  ?>
+ <p class="color-red" style="color: #b20000;">
+ <strong><?php echo \htmlentities($value['name_input']??'', ENT_QUOTES, 'UTF-8', false); ?></strong>:
+ <span><?php echo \htmlentities($value['isError']??'', ENT_QUOTES, 'UTF-8', false); ?></span>
+ </p>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ <?php endif; ?>
+ <?php if(isset($_SESSION['success']) && isset($_GET['msg'])): ?>
+ <p  style="color:#6cbc6f;">
+ <strong><?php echo \htmlentities($_SESSION['success']??'', ENT_QUOTES, 'UTF-8', false); ?></strong>:
+ </p>
+ <?php endif; ?>
+ </div>
+ <div class="col-xs-12">
+ <button name="btn-submit" type="submit" class="btn-color right-side">Đăng ký</button>
+ </div>
+ <div class="col-xs-12">
+ <hr>
+ <div class="new-account align-center mt-20"> <span>Đã có tài khoản với chúng tôi </span>
+ <a class="link" title="Register with Honour" href="<?php echo \htmlentities(route('login/')??'', ENT_QUOTES, 'UTF-8', false); ?>">Đăng nhập
+ tại đây</a> </div>
+ </div>
+ </div>
+ </form>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+<?php $this->stopSection(); ?>
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('frontend.layout.main'); } ?>
